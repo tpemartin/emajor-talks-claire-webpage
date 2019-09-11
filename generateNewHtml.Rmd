@@ -1,0 +1,41 @@
+---
+title: "生成網頁"
+author: "林茂廷"
+date: "9/11/2019"
+output: html_document
+params:
+  speaker: "Tom"
+  speechContent: "分享工作。。。。。"
+  speakerImage: "https://www.ntpu.edu.tw/admin/a3/files/a3_photo/20190805162930.jpg"
+---
+
+```{r}
+# params$speaker
+# params$speechContent
+# params$speakerImage
+
+# speaker <- "Claire"
+# speechContent <- "分享工作。。。。。"
+# speakerImage <- "assets/img/claire.jpg"
+
+# 讀入html檔
+readLines("index.html") -> indexContent
+
+
+# 把要取代的關鍵字取代掉
+library(stringr)
+#str_replace(indexContent,"_SPEAKER_",speaker)
+str_replace_all(
+  indexContent,
+  c(
+    "_Speaker_"=params$speaker,
+    "_speechContent_"=params$speechContent,
+    "assets/img/intro.jpg"=params$speakerImage
+  )
+) -> newindexContent
+
+# 生成新網頁
+writeLines(newindexContent,
+           "newindex.html")
+```
+
